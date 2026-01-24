@@ -24,7 +24,7 @@ The main goals are:
 ## Running the Project Locally
 
 1. Clone the repository:
-   git clone https://github.com/yourname/games-lab.git
+   git clone https://github.com/ivayloKoruev/games-lab.git
 
 2. Open the project folder:
    cd games-lab

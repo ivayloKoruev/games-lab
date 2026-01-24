@@ -8,8 +8,8 @@ A personal JavaScript & Pixi.js playground focused on building slot games and ma
 
 - JavaScript (ES6+)
 - Pixi.js
-- HTML5 Canvas
-
+- TypeScript
+- React.js
 
 ## About This Repository
 
@@ -37,5 +37,11 @@ The main goals are:
 ## License
 
 Code is licensed under the MIT License.
-
 Assets (images, sounds, fonts) are used for demo and learning purposes only.
+
+
+## Author
+
+👤 Ivaylo Koruev  
+💻 Front-End Game Developer  
+🎯 Focus: Slot Games & Casual Games

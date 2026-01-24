@@ -32,3 +32,10 @@ The main goals are:
 3. Start a local server (example):
    npm install
    npm run dev
+
+
+## License
+
+Code is licensed under the MIT License.
+
+Assets (images, sounds, fonts) are used for demo and learning purposes only.

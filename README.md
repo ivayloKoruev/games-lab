@@ -1,4 +1,4 @@
-# Games-Lab 🍈🍉🍋‍🟩
+# Games-Lab 🍋🍍🍊
 
 A personal JavaScript & Pixi.js playground focused on building slot games and match-3 games with clean architecture and async logic.
 🚧 In progress

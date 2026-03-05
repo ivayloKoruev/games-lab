@@ -1,15 +1,17 @@
 # Games-Lab 🍋🍍🍊
 
-A personal JavaScript & Pixi.js playground focused on building slot games and match-3 games with clean architecture and async logic.
+A personal playground focused on building slot games and match-3 games with clean architecture and async logic.
 🚧 In progress
 
 
 ## Tech-Stack 🧑‍💻⚙️
 
 - JavaScript (ES6+)
+- HTML/CSS
 - Pixi.js
 - TypeScript
 - React.js
+
 
 ## About This Repository
 

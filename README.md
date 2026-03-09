@@ -1,6 +1,6 @@
 # Games-Lab 🍋🍍🍊
 
-A personal playground focused on building slot games and match-3 games with clean architecture and async logic.
+A personal playground focused on building slot games and match-3 games.
 🚧 In progress
 
 

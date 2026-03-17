@@ -45,7 +45,7 @@ body {
   height: 450px;
   display: flex;
   flex-wrap: wrap;
-  background-image: radial-gradient(rgb(117, 199, 250), rgb(117, 193, 241));
+  background-image: radial-gradient(rgb(143, 182, 234), rgb(143, 182, 234));
   justify-content: center;
   align-items: center;
   border: solid 2px rgb(38, 96, 133);
@@ -126,7 +126,7 @@ body {
   margin-bottom: 70px;
   font-size: 40px;
   padding: 0px 50px;
-  background-image: linear-gradient(to top, rgb(159, 0, 233), rgb(229, 207, 255));
+  background-image: linear-gradient(to top, rgb(139, 25, 192), rgb(229, 207, 255));
   color: rgb(255, 255, 255);
   font-family: "Birthstone", cursive;
   font-weight: 400;
@@ -157,13 +157,42 @@ body {
   transform: scale(1.3);
 }
 
+#settingsButton:hover {
+  transform: scale(1.1);
+}
+
 .textInfo {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
-  background-image: linear-gradient(to top, rgb(0, 104, 164), rgb(106, 255, 243));
+  background-image: linear-gradient(to top, rgb(55, 57, 158), rgb(164, 165, 255));
   width: 380px;
-  font-size: 19px;
+  font-size: 17px;
+  font-family: "Kavoon", serif;
+  font-weight: 400;
+  font-style: normal;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 30px;
+  opacity: 1;
+  padding: 1px 20px;
+  border: 1px solid;
+  border-color: rgb(0, 68, 107);
+  box-shadow: 0px 0px 20px rgb(53, 53, 81);
+}
+
+
+.settingsInfo {
+  display: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(to top, rgb(55, 57, 158), rgb(164, 165, 255));
+  width: 380px;
+  height: 150px;
+  font-size: 15px;
   font-family: "Kavoon", serif;
   font-weight: 400;
   font-style: normal;
@@ -173,12 +202,19 @@ body {
   transform: translate(-50%, -50%);
   border-radius: 30px;
   transition: opacity 0.2s ease;
-  opacity: 0;
+  opacity: 1;
   padding: 1px 20px;
   border: 1px solid;
   border-color: rgb(0, 68, 107);
-  box-shadow: 0px 2px rgb(34, 1, 31);
-  text-shadow: 1px 1px rgb(31, 0, 24);
+  box-shadow: 0px 0px 20px rgb(53, 53, 81);
+}
+
+.settingsInfo.hide {
+  display: none;
+}
+
+.settingsInfo.show { 
+  display: flex;
 }
 
 .textInfo.hide {
@@ -186,10 +222,15 @@ body {
   pointer-events: none;
 }
 
+.textInfo.show {
+  display: flex;
+}
+
 #infoButton {
   font-size: 30px;
   position: absolute;
   margin-top: 100px;
+  margin-left: -200px;
   background-image: linear-gradient(to top, rgb(0, 104, 164), rgb(106, 255, 243));
   color: rgb(255, 255, 255);
   font-family: "Birthstone", cursive;
@@ -197,6 +238,47 @@ body {
   font-variation-settings: "wdth" 100;
   border-radius: 25px;
   padding: 1px 40px;
+  text-align: center;
+  opacity: 1;
+  border: 1px solid;
+  border-color: rgb(0, 68, 107);
+  box-shadow: 0px 2px 5px rgb(0, 6, 10);
+}
+
+.okButton {
+  font-size: 30px;
+  padding: 1px 40px;
+  position: absolute;
+  margin-top: 350px;
+  background-image: linear-gradient(to top, rgb(0, 104, 164), rgb(106, 255, 243));
+  color: rgb(255, 255, 255);
+  font-family: "Birthstone", cursive;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+  border-radius: 25px;
+  text-align: center;
+  opacity: 1;
+  border: 1px solid;
+  border-color: rgb(0, 68, 107);
+  box-shadow: 0px 2px rgb(1, 23, 34);
+}
+
+.okButton:hover {
+  transform: scale(1.1);
+}
+
+#settingsButton {
+  font-size: 30px;
+  position: absolute;
+  margin-top: 100px;
+  margin-left: 200px;
+  background-image: linear-gradient(to top, rgb(0, 104, 164), rgb(106, 255, 243));
+  color: rgb(255, 255, 255);
+  font-family: "Birthstone", cursive;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+  border-radius: 25px;
+  padding: 1px 30px;
   text-align: center;
   opacity: 1;
   border: 1px solid;
@@ -225,6 +307,6 @@ body {
 #board img {
   width: 46px;
   height: 40px;
-  box-shadow: 2px 2px 10px rgb(144, 129, 179);
+  box-shadow: 2px 2px 10px rgb(0, 0, 0);
   border-radius: 10px;
 }

@@ -1,3 +1,12 @@
+import { generateCandy } from "./generateCandy.js";
+import { randomCandy } from "./randomCandy.js";
+import { slideCandy } from "./slideCandy.js";
+import { checkThree } from "./checkThree.js";
+import { checkFour } from "./checkFour.js";
+import { checkScore } from "./checkScore.js";
+import { scoreScaleUI } from "./scoreScaleUI.js";
+import { showWinScreen } from "./showWinScreen.js";
+
 let candies = ["Brown", "BrownRed", "BrownWhite", "Green", "Pink", "PinkBlue"];
 let board = [];
 let rows = 9;
@@ -6,7 +15,7 @@ let score = 0;
 let moves = 0;
 
 let candyDragged = null;
-let gameInterval = null;
+let gameOver = false;
 let targetScore = 2000;
 
 const okButton = document.querySelector(".okButton");
@@ -14,13 +23,13 @@ const settingsInfo = document.querySelector(".settingsInfo");
 const title = document.querySelector(".title");
 const buttonsClass = document.querySelector(".buttons");
 const boardElement = document.getElementById("board");
-const scoreClass = document.querySelector(".scoreClass");
 const thanksForPlaying = document.querySelector(".thanks");
 const startButton = document.getElementById("startButton");
 const infoButton = document.getElementById("infoButton");
 const scoreDivElement = document.getElementById("scoreDiv");
 document.getElementById("target").innerHTML = targetScore;
 let scoreScale = document.querySelector(".scoreScale");
+
 document.addEventListener("DOMContentLoaded", function () {
   const settingsButton = document.getElementById("settingsButton");
   const buttonAudio = document.getElementById("buttonAudio");
@@ -43,9 +52,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     boardElement.classList.add("show");
     scoreDivElement.style.opacity = "1";
+
+    startGame();
+    checkBeginning();
+
+    setTimeout(checkBeginning);
   });
 
-  okButton.addEventListener("click", function() {
+  okButton.addEventListener("click", function () {
     buttonAudio.play();
     settingsInfo.classList.remove("show");
     settingsButton.style.display = "flex";
@@ -53,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
     infoButton.style.display = "flex";
     title.classList.remove("hide");
   });
-  
+
   infoButton.addEventListener("click", function () {
     startButton.style.display = "none";
     infoButton.style.display = "none";
@@ -63,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
     settingsButton.style.display = "none";
   });
 
-  settingsButton.addEventListener("click", function() {
+  settingsButton.addEventListener("click", function () {
     buttonAudio.play();
     settingsButton.style.display = "none";
     startButton.style.display = "none";
@@ -71,7 +85,6 @@ document.addEventListener("DOMContentLoaded", function () {
     title.classList.add("hide");
     settingsInfo.classList.add("show");
   });
-
 
   exitButton.addEventListener("click", function () {
     buttonAudio.play();
@@ -83,24 +96,42 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-window.onload = function () {
-  startGame();
-  processMatches();
-};
-
-function processMatches() {
-  if (checkMatch()) {
-    // ако има съвпадения, първо премахваме, след това падаме и генерираме нови бонбони
-    slideCandy();
-    generateCandy();
-
-    // извикваме отново след 200ms, за да браузърът успее да обнови DOM
-    setTimeout(processMatches, 200);
+function checkBeginning() {
+  if (checkThree(board, rows, cols)) {
+    slideCandy(board, rows, cols);
+    generateCandy(board, rows, cols, () => randomCandy(candies));
   }
 }
 
-function randomCandy() {
-  return candies[Math.floor(Math.random() * candies.length)];
+function processMatches() {
+  if (gameOver) return;
+
+  if (checkFour(board, rows, cols)) {
+    score += 70;
+    scoreScaleUI(scoreScale);
+    document.getElementById("score").innerHTML = score;
+
+    slideCandy(board, rows, cols);
+    generateCandy(board, rows, cols, () => randomCandy(candies));
+
+    setTimeout(processMatches);
+  } else if (checkThree(board, rows, cols)) {
+    score += 35;
+    scoreScaleUI(scoreScale);
+    document.getElementById("score").innerHTML = score;
+
+    slideCandy(board, rows, cols);
+    generateCandy(board, rows, cols, () => randomCandy(candies));
+
+    setTimeout(processMatches);
+  }
+
+  if (!gameOver && checkScore(score, targetScore)) {
+    gameOver = true;
+
+    showWinScreen(boardElement, thanksForPlaying);
+    return true;
+  }
 }
 
 function startGame() {
@@ -110,7 +141,7 @@ function startGame() {
     for (let c = 0; c < cols; c++) {
       let candy = document.createElement("img");
       candy.id = r.toString() + "-" + c.toString();
-      candy.src = "./images/" + randomCandy() + ".png";
+      candy.src = "./images/" + randomCandy(candies) + ".png";
       candy.draggable = true;
 
       candy.addEventListener("dragstart", (e) => {
@@ -155,13 +186,7 @@ function startGame() {
           let candyAudio = document.getElementById("candyAudio");
           candyAudio.play();
 
-          if (!gameInterval) {
-            gameInterval = setInterval(() => {
-              crushCandy();
-              slideCandy();
-              generateCandy();
-            }, 100);
-          }
+          processMatches();
         }
       });
 
@@ -172,108 +197,4 @@ function startGame() {
     }
     board.push(row);
   }
-}
-
-function crushCandy() {
-  checkMatch();
-  document.getElementById("score").innerHTML = score;
-}
-
-function checkMatch() {
-  let matchFound = false;
-  //проверяваме редовете
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols - 2; c++) {
-      let candy1 = board[r][c];
-      let candy2 = board[r][c + 1];
-      let candy3 = board[r][c + 2];
-
-      if (
-        candy1.src === candy2.src &&
-        candy2.src === candy3.src &&
-        !candy1.src.includes("blank")
-      ) {
-        candy1.src = "./images/Blank.png";
-        candy2.src = "./images/Blank.png";
-        candy3.src = "./images/Blank.png";
-        score += 35;
-        checkScore();
-        scoreScale.classList.add("scale");
-
-        setTimeout(() => {
-          scoreScale.classList.remove("scale");
-        }, 200);
-        matchFound = true;
-      }
-    }
-  }
-
-  //проверяваме колоните
-  for (let c = 0; c < cols; c++) {
-    for (let r = 0; r < rows - 2; r++) {
-      let candy1 = board[r][c];
-      let candy2 = board[r + 1][c];
-      let candy3 = board[r + 2][c];
-
-      if (
-        candy1.src === candy2.src &&
-        candy2.src === candy3.src &&
-        !candy1.src.includes("Blank")
-      ) {
-        candy1.src = "./images/Blank.png";
-        candy2.src = "./images/Blank.png";
-        candy3.src = "./images/Blank.png";
-        score += 35;
-        checkScore();
-        scoreScale.classList.add("scale");
-
-        setTimeout(() => {
-          scoreScale.classList.remove("scale");
-        }, 200);
-        matchFound = true;
-      }
-    }
-  }
-  return matchFound;
-}
-
-function slideCandy() {
-  for (let c = 0; c < cols; c++) {
-    let index = rows - 1;
-
-    for (let r = rows - 1; r >= 0; r--) {
-      if (!board[r][c].src.includes("Blank")) {
-        board[index][c].src = board[r][c].src;
-        index -= 1;
-      }
-    }
-
-    for (let r = index; r >= 0; r--) {
-      board[r][c].src = "./images/Blank.png";
-    }
-  }
-}
-
-function generateCandy() {
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      if (board[r][c].src.includes("Blank")) {
-        board[r][c].src = "./images/" + randomCandy() + ".png";
-      }
-    }
-  }
-}
-
-function checkScore() {
-    if (score >= targetScore) {
-      setInterval(() => {
-        boardElement.style.opacity = "0";
-
-        setInterval(() => {
-            boardElement.style.display = "none";
-            thanksForPlaying.style.opacity = "1";
-            thanksForPlaying.style.display = "flex";
-        }, 1000);
-      }, 800);
-    }
 }

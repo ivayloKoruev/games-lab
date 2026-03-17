@@ -155,22 +155,17 @@ function startGame() {
       candy.addEventListener("drop", (e) => {
         let droppedCandy = e.target;
 
-        //проверяваме за съседни елеметни откъм 4те страни - ляво, дясно, горе и долу
-        //взимаме id на колоните и редовете на елемента който придвижваме
         let draggedCoords = candyDragged.id.split("-");
         let draggedRow = parseInt(draggedCoords[0]);
         let draggedCol = parseInt(draggedCoords[1]);
 
-        //взимаме id на колоните и редовете на съседния елемент
         let droppedCoords = droppedCandy.id.split("-");
         let droppedRow = parseInt(droppedCoords[0]);
         let droppedCol = parseInt(droppedCoords[1]);
 
-        //взима дистанцията (id-то на елемента който придвижваме минус съседния му)
         let rowDiff = Math.abs(draggedRow - droppedRow);
         let colDiff = Math.abs(draggedCol - droppedCol);
 
-        //проверяваме ако дистанцията е 0 или 1 но не повече, тогава може да ги размениш
         if (
           (rowDiff === 1 && colDiff === 0) ||
           (rowDiff === 0 && colDiff === 1)
